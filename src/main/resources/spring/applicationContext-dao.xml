@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--加载数据库参数文件-->
+    <context:property-placeholder location="classpath:dataSource/dataSource.properties"/>
+
+    <!-- 配置数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <!-- 连接池的初始连接数 -->
+        <property name="initialSize" value="${db.initialSize}"/>
+        <!-- 连接池的最大数据库连接数 -->
+        <property name="maxActive" value="${db.maxActive}"/>
+        <!-- 最大空闲数 -->
+        <property name="minIdle" value="${db.minIdle}"/>
+        <!--最长连接时间-->
+        <property name="maxWait" value="${db.maxWait}"/>
+    </bean>
+
+    <!-- SqlSessionFactory配置 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 加载mybatis核心配置文件 -->
+        <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"/>
+        <!--加载映射文件:也可以在SqlMapConfig.xml中加载-->
+        <!--<property name="mapperLocations" value="classpath:mappers/*.xml"/>-->
+    </bean>
+    <!--mappers接口配置-->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer" id="scannerConfigurer">
+        <property name="basePackage" value="com.ccav.rbac.dao"/>
+    </bean>
+
+    <!--老子也不清楚这是什么GB-->
+    <!-- druid -->
+    <!--监控数据库-->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!--若sql执行速度慢于3000毫秒，则被发现-->
+        <property name="slowSqlMillis" value="3000"/>
+        <!--如果发现sql执行速度慢于3000毫秒,则以日志的形式记录下来-->
+        <property name="logSlowSql" value="true"/>
+        <!--格式sql日志-->
+        <property name="mergeSql" value="true"/>
+    </bean>
+    <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+        <!--配置监控类型-->
+        <property name="dbType" value="mysql"/>
+    </bean>
+</beans>

@@ -1,0 +1,23 @@
+﻿##项目所需依赖：
+###spring:
+  -->spring-beans  
+  -->spring-context  
+  -->spring-web  
+  -->spring-weebmvc  
+  -->spring-jdbc  
+###mybatis:
+  -->mybaits  
+  -->mybatis-spring  
+  -->mysql-connect-java（数据库连接）  
+  -->druid(数据源管理)
+###lombok(简化代码：如get/set/toString等):
+  -->lombok
+####注意：lombak在idea中，需要lombak plugin插件的支持，才可用
+###jackson:
+  -->jackson-datatype-guava  
+##servlet
+  -->servlet-api
+###logback(其作用为日志记录):
+  -->logback-core
+  -->logback-classic
+  -->slf4j-api
