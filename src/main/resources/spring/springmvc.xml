@@ -18,6 +18,10 @@
 
     <!-- 配置注解驱动，相当于同时使用最新处理器映射跟处理器适配器,对json数据响应提供支持 -->
     <mvc:annotation-driven/>
+    <mvc:interceptors>
+        <bean class="com.ccav.rbac.common.HttpInterceptor" />
+    </mvc:interceptors>
+    <bean class="com.ccav.rbac.common.ApplicationContextHelper" lazy-init="false" />
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>-->
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
     <!--配置响应处理格式-->
